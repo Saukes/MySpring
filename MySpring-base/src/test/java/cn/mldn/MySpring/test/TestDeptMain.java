@@ -3,12 +3,16 @@ package cn.mldn.MySpring.test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import cn.mldn.MySpring.service.IMessage;
+import cn.mldn.MySpring.vo.Dept;
 
-public class TestMessage {
+public class TestDeptMain {
 	public static void main(String[] args) {
 		ApplicationContext context = new ClassPathXmlApplicationContext("spring/spring-base.xml");
-		IMessage msg = context.getBean("messageImpl",IMessage.class);
-		System.out.println(msg.echo("www.mldn.cn"));
+		for (int x = 0; x < 10; x++) {
+			new Thread(() -> {
+				Dept deptA = context.getBean("dept", Dept.class);
+				System.out.println("【" + Thread.currentThread().getName() + "MAIN方法】获取dept" + deptA);
+			}).start();
+		}
 	}
 }
